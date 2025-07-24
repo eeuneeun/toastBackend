@@ -1,22 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BoardController } from './board.controller';
 import { BoardService } from './board.service';
+import { Board } from './entities/board.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 describe('BoardController', () => {
-  let appController: BoardController;
+  let controller: BoardController;
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [TypeOrmModule.forFeature([Board])],
       controllers: [BoardController],
       providers: [BoardService],
     }).compile();
 
-    appController = app.get<BoardController>(BoardController);
+    controller = module.get<BoardController>(BoardController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
   });
 });

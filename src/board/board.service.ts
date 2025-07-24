@@ -1,8 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Board } from './entities/board.entity';
+import { Repository } from 'typeorm/index';
 
 @Injectable()
 export class BoardService {
-  getHello(): string {
-    return 'Hello World!';
+  // constructor(protected repo: Repository<T>) {
+  //   super();
+  //   this.dbName = this.repo.metadata.connection.options.type;
+  //   this.onInitMapEntityColomns();
+  // }
+  constructor(
+    @InjectRepository(Board) private boardRepository: Repository<Board>,
+  ) {
+    this.boardRepository = boardRepository;
+  }
+  async create(input: any): Promise<Board> {
+    const result = await this.boardRepository.save({
+      ...input,
+    });
+    return result;
+  }
+
+  async findAll(): Promise<Board[]> {
+    const result = await this.boardRepository.find();
+    return result;
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} board`;
+  }
+
+  async update(id: number, newContents: {}): Promise<{ message: string }> {
+    const result = await this.boardRepository.update(id, newContents);
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return { message: `User ${id} updated` };
+  }
+
+  async remove(id: number): Promise<any> {
+    const result = await this.boardRepository.delete(id);
+    console.log('result', result);
+    return result;
   }
 }
