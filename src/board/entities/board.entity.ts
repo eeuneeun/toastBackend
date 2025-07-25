@@ -6,9 +6,6 @@ export class Board {
   id: number;
 
   @Column()
-  articleId: string;
-
-  @Column()
   title: string;
 
   @Column()
