@@ -28,8 +28,8 @@ export class BoardController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.boardService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.boardService.findOne(id);
   }
 
   @Put(':id')

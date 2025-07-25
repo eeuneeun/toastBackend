@@ -29,8 +29,10 @@ export class BoardService {
     return result;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} board`;
+  async findOne(id: number): Promise<Board | null> {
+    const result = await this.boardRepository.findOne({ where: { id: id } });
+
+    return result;
   }
 
   async update(id: number, newContents: {}): Promise<{ message: string }> {
@@ -43,7 +45,9 @@ export class BoardService {
 
   async remove(id: number): Promise<any> {
     const result = await this.boardRepository.delete(id);
-    console.log('result', result);
-    return result;
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return { message: `User ${id} updated` };
   }
 }
