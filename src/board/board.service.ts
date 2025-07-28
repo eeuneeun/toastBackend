@@ -24,7 +24,7 @@ export class BoardService {
     return result;
   }
 
-  async findAll(): Promise<Board[]> {
+  async findAll() {
     const result = await this.boardRepository.find();
     return result;
   }
@@ -38,16 +38,16 @@ export class BoardService {
   async update(id: number, newContents: {}): Promise<{ message: string }> {
     const result = await this.boardRepository.update(id, newContents);
     if (result.affected === 0) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`Article with id ${id} not found`);
     }
-    return { message: `User ${id} updated` };
+    return { message: `Article ${id} updated` };
   }
 
   async remove(id: number): Promise<any> {
     const result = await this.boardRepository.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new NotFoundException(`Article with id ${id} not found`);
     }
-    return { message: `User ${id} updated` };
+    return { message: `Article ${id} updated` };
   }
 }
