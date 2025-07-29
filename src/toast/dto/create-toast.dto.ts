@@ -1,11 +1,9 @@
 export class CreateToastDto {
-  id: number;
-
   toastName: string;
 
   imgUrl: string;
 
-  decription: string;
+  desc: string;
 
   price: number;
 

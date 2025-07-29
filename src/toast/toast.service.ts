@@ -13,9 +13,10 @@ export class ToastService {
     this.toastRepository = toastRepository;
   }
 
-  async create(input: any): Promise<Toast> {
+  async create(newMenu: CreateToastDto): Promise<CreateToastDto> {
+    console.log(newMenu);
     const result = await this.toastRepository.save({
-      ...input,
+      ...newMenu,
     });
     return result;
   }

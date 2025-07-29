@@ -12,7 +12,7 @@ export class Toast {
   imgUrl: string;
 
   @Column()
-  decription: string;
+  desc: string;
 
   @Column({ default: 3000 })
   price: number;

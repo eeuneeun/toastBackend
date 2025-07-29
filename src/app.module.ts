@@ -9,6 +9,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entities/user.entity';
 import { Board } from './board/entities/board.entity';
 import { Toast } from './toast/entities/toast.entity';
+import { CartModule } from './cart/cart.module';
+import { PromotionModule } from './promotion/promotion.module';
+import { OrderModule } from './order/order.module';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -31,6 +34,9 @@ import { Toast } from './toast/entities/toast.entity';
     UserModule,
     BoardModule,
     ToastModule,
+    CartModule,
+    PromotionModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
