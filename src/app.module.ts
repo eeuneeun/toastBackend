@@ -15,6 +15,7 @@ import { OrderMenuModule } from './order-menu/order-menu.module';
 import { Order } from './order/entities/order.entity';
 import { Menu } from './menu/entities/menu.entity';
 import { OrderMenu } from './order-menu/entities/order-menu.entity';
+import { CartMenuModule } from './cart-menu/cart-menu.module';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -41,6 +42,7 @@ import { OrderMenu } from './order-menu/entities/order-menu.entity';
     OrderModule,
     MenuModule,
     OrderMenuModule,
+    CartMenuModule,
   ],
   controllers: [AppController],
   providers: [AppService],
