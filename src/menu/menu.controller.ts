@@ -9,43 +9,42 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { ToastService } from './toast.service';
-import { CreateToastDto } from './dto/create-toast.dto';
-import { UpdateToastDto } from './dto/update-toast.dto';
-
+import { MenuService } from './menu.service';
+import { CreateMenuDto } from './dto/create-menu.dto';
+import { UpdateMenuDto } from './dto/update-menu.dto';
+import { extname } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { Menu } from './entities/menu.entity';
 
-@Controller('toast')
-export class ToastController {
-  constructor(private readonly toastService: ToastService) {}
+@Controller('menu')
+export class MenuController {
+  constructor(private readonly menuService: MenuService) {}
 
   @Post()
-  create(@Body() createToastDto: CreateToastDto) {
-    return this.toastService.create(createToastDto);
+  create(@Body() createMenuDto: Menu) {
+    return this.menuService.create(createMenuDto);
   }
 
   @Get()
   findAll() {
-    return this.toastService.findAll();
+    return this.menuService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.toastService.findOne(+id);
+    return this.menuService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateToastDto: UpdateToastDto) {
-    return this.toastService.update(+id, updateToastDto);
+  update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
+    return this.menuService.update(+id, updateMenuDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.toastService.remove(+id);
+    return this.menuService.remove(+id);
   }
-
   // upload.controller.ts
 
   @Post('upload')

@@ -1,19 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateToastDto } from './dto/create-toast.dto';
-import { UpdateToastDto } from './dto/update-toast.dto';
+import { CreateMenuDto } from './dto/create-menu.dto';
+import { UpdateMenuDto } from './dto/update-menu.dto';
+import { Menu } from './entities/menu.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Toast } from './entities/toast.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class ToastService {
+export class MenuService {
   constructor(
-    @InjectRepository(Toast) private toastRepository: Repository<Toast>,
+    @InjectRepository(Menu) private toastRepository: Repository<Menu>,
   ) {
     this.toastRepository = toastRepository;
   }
 
-  async create(newMenu: CreateToastDto): Promise<CreateToastDto> {
+  async create(newMenu: Menu): Promise<Menu> {
     console.log(newMenu);
     const result = await this.toastRepository.save({
       ...newMenu,
@@ -21,12 +21,12 @@ export class ToastService {
     return result;
   }
 
-  async findAll(): Promise<Toast[]> {
+  async findAll(): Promise<Menu[]> {
     const result = await this.toastRepository.find();
     return result;
   }
 
-  async findOne(id: number): Promise<Toast | null> {
+  async findOne(id: number): Promise<Menu | null> {
     const result = await this.toastRepository.findOne({ where: { id: id } });
 
     return result;
