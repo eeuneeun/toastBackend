@@ -1,19 +1,17 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Order } from 'src/order/entities/order.entity';
-import { Menu } from 'src/menu/entities/menu.entity';
-import { Cart } from 'src/cart/entities/cart.entity';
+import { Menu } from '../../menu/entities/menu.entity';
+import { Cart } from '../../cart/entities/cart.entity';
 @Entity()
 export class CartMenu {
+  /* This TypeScript code defines an entity called `CartMenu` using TypeORM decorators. Here's what
+  each part of the code is doing: */
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
-  customerId: string;
 
   @ManyToOne(() => Cart, (cart) => cart.cartMenus, { onDelete: 'CASCADE' })
   cart: Cart;
 
-  @ManyToOne(() => Menu, (menu) => menu.orderMenus, { eager: true })
+  @ManyToOne(() => Menu, (menu) => menu.cartMenus)
   menu: Menu;
 
   @Column('int')

@@ -19,4 +19,7 @@ export class User {
 
   @Column({ default: '익명' })
   nickname: string;
+
+  @Column()
+  favorite: string[]; //StoreId
 }

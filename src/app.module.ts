@@ -16,6 +16,9 @@ import { Order } from './order/entities/order.entity';
 import { Menu } from './menu/entities/menu.entity';
 import { OrderMenu } from './order-menu/entities/order-menu.entity';
 import { CartMenuModule } from './cart-menu/cart-menu.module';
+import { Cart } from './cart/entities/cart.entity';
+import { CartMenu } from './cart-menu/entities/cart-menu.entity';
+import { AuthModule } from './auth/auth.module';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -32,7 +35,7 @@ import { CartMenuModule } from './cart-menu/cart-menu.module';
       username: 'root',
       password: '1234',
       database: 'board',
-      entities: [User, Board, Order, Menu, OrderMenu],
+      entities: [User, Board, Order, OrderMenu, Cart, CartMenu, Menu],
       synchronize: true,
     }),
     UserModule,
@@ -43,6 +46,7 @@ import { CartMenuModule } from './cart-menu/cart-menu.module';
     MenuModule,
     OrderMenuModule,
     CartMenuModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
