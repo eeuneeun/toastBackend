@@ -18,29 +18,22 @@ export class CartService {
     private cartMenuRepo: Repository<CartMenu>,
   ) {}
 
-  async createCart(dto: CreateCartDto): Promise<Cart> {
-    const cart = this.cartRepo.create(dto);
-    return this.cartRepo.save(cart);
-  }
-
-  async addMenuToCart(
-    cartId: number,
-    menuId: number,
-    quantity: number,
-    totalPrice: number,
-  ) {
-    const cart = await this.cartRepo.findOneBy({ id: cartId });
-    const menu = await this.menuRepo.findOneBy({ id: menuId });
-
-    if (!cart || !menu) throw new NotFoundException('Cart or Menu not found');
-
-    const cartMenu = this.cartMenuRepo.create({
-      cart,
-      menu,
-      quantity,
-      totalPrice,
+  async createCart(createCartDto: CreateCartDto): Promise<Cart> {
+    console.log('createCartDto', createCartDto);
+    const cart = this.cartRepo.create({
+      customerId: createCartDto.customerId,
+      cartMenus: await Promise.all(
+        createCartDto.cartMenus.map(async (cm) => {
+          const menu = await this.menuRepo.findOneByOrFail({ id: cm.menuId });
+          return this.cartMenuRepo.create({
+            menu,
+            quantity: cm.quantity,
+          });
+        }),
+      ),
     });
-    return this.cartMenuRepo.save(cartMenu);
+
+    return this.cartRepo.save(cart);
   }
 
   async getCartWithMenus(cartId: number) {

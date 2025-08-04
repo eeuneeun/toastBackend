@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  IsNull,
+} from 'typeorm';
 import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
 
@@ -22,10 +28,10 @@ export class Menu {
   @Column('int')
   price: number;
 
-  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.menu)
+  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.menu, { nullable: true })
   orderMenus: OrderMenu[];
 
-  @OneToMany(() => CartMenu, (cartMenu) => cartMenu.menu)
+  @OneToMany(() => CartMenu, (cartMenu) => cartMenu.menu, { nullable: true })
   cartMenus: CartMenu[];
 
   @Column()

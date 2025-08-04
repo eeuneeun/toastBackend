@@ -16,7 +16,4 @@ export class CartMenu {
 
   @Column('int')
   quantity: number;
-
-  @Column('int')
-  totalPrice: number;
 }
