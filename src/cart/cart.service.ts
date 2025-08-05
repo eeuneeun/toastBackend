@@ -18,12 +18,25 @@ export class CartService {
     private cartMenuRepo: Repository<CartMenu>,
   ) {}
 
-  async createCart(createCartDto: CreateCartDto): Promise<Cart> {
-    console.log('createCartDto', createCartDto);
+  async createCart(
+    customerId: string,
+    cartMenus: { menuId: number; quantity: number }[] = [],
+  ) {
+    // 1. 기존 장바구니 찾기
+    const existingCart = await this.cartRepo.findOne({
+      where: { customerId: customerId },
+      relations: ['cartMenus'],
+    });
+
+    // 2. 기존 장바구니 삭제 (cascade로 CartMenu도 삭제됨)
+    if (existingCart) {
+      await this.cartRepo.remove(existingCart);
+    }
+
     const cart = this.cartRepo.create({
-      customerId: createCartDto.customerId,
+      customerId: customerId,
       cartMenus: await Promise.all(
-        createCartDto.cartMenus.map(async (cm) => {
+        cartMenus.map(async (cm) => {
           const menu = await this.menuRepo.findOneByOrFail({ id: cm.menuId });
           return this.cartMenuRepo.create({
             menu,
@@ -33,14 +46,59 @@ export class CartService {
       ),
     });
 
-    return this.cartRepo.save(cart);
+    const result = await this.cartRepo.save(cart);
+    // relations 포함해서 다시 조회
+    const response = await this.cartRepo.findOne({
+      where: { id: result.id },
+      relations: ['cartMenus', 'cartMenus.menu'],
+    });
+    return response;
   }
 
-  async getCartWithMenus(cartId: number) {
+  async addItem(customerId: string, menuId: number, quantity: number) {
+    let cart = await this.getByCustomerId(customerId);
+
+    // 장바구니 없으면 새로 생성
+    if (!cart) {
+      return this.createCart(customerId, [{ menuId, quantity }]);
+    }
+
+    // 해당 메뉴가 이미 있는지 확인
+    const existingItem = cart.cartMenus.find((cm) => cm.menu.id === menuId);
+    if (existingItem) {
+      existingItem.quantity += quantity;
+      await this.cartMenuRepo.save(existingItem);
+    } else {
+      const menu = await this.menuRepo.findOneByOrFail({ id: menuId });
+      const newItem = this.cartMenuRepo.create({ cart, menu, quantity });
+      await this.cartMenuRepo.save(newItem);
+    }
+
+    // 변경된 장바구니 반환
+    return this.getByCustomerId(customerId);
+  }
+
+  async getByCartId(cartId: number) {
     return this.cartRepo.findOne({
       where: { id: cartId },
       relations: ['cartMenus', 'cartMenus.menu'],
     });
+  }
+
+  async getByCustomerId(customerId: string) {
+    const cart = await this.cartRepo.findOne({
+      where: { customerId },
+      relations: ['cartMenus', 'cartMenus.menu'],
+    });
+    return cart;
+  }
+
+  async getOrCreateByCustomerId(customerId: string) {
+    let cart = await this.getByCustomerId(customerId);
+    if (!cart) {
+      cart = await this.createCart(customerId, []);
+    }
+    return cart;
   }
 
   async removeMenuFromCart(cartMenuId: number) {
