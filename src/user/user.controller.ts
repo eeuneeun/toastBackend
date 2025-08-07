@@ -26,6 +26,11 @@ export class UserController {
     const user = await this.userService.validateUser(signInDto);
     return { message: 'Login successful', user };
   }
+  @Post('logout')
+  async logout(@Body() signInDto: SignInDto) {
+    const user = await this.userService.logoutUser(signInDto);
+    return { message: 'Logout successful', user };
+  }
 
   @Get()
   findAll() {

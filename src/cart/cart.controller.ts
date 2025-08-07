@@ -57,18 +57,19 @@ export class CartController {
     return this.cartService.getOrCreateByCustomerId(customerId);
   }
 
-  // @Patch(':cartId')
-  // update(
-  //   @Param('cartId') cartId: number,
-  //   @Body() menuId: number,
-  //   quantity: number,
-  //   totalPrice: number,
-  // ) {
-  //   return this.cartService.addMenuToCart(cartId, menuId, quantity, totalPrice);
-  // }
+  @Patch(':cartId')
+  update(
+    @Param('cartId') cartId: number,
+    @Body() menuId: number,
+    quantity: number,
+    totalPrice: number,
+  ) {
+    return this.cartService.addMenuToCart(cartId, menuId, quantity, totalPrice);
+  }
 
   @Delete(':cartId')
   remove(@Param('cartId') cartId: number) {
+    console.log(cartId);
     return this.cartService.deleteCart(cartId);
   }
 }

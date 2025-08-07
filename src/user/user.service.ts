@@ -38,6 +38,10 @@ export class UserService {
     return { id: user?.userId, username: user?.name };
   }
 
+  async logoutUser(signOutDto: SignInDto) {
+    //토큰 삭제 로직
+  }
+
   async findAll(): Promise<User[]> {
     const result = await this.userRepository.find();
     return result;

@@ -78,6 +78,8 @@ export class CartService {
     return this.getByCustomerId(customerId);
   }
 
+  async addMenuToCart(cartId, menuId, quantity, totalPrice) {}
+
   async getByCartId(cartId: number) {
     return this.cartRepo.findOne({
       where: { id: cartId },
