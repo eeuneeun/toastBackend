@@ -15,6 +15,9 @@ export class Order {
   @Column()
   customerId: string;
 
+  @Column()
+  storeId: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

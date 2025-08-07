@@ -6,9 +6,6 @@ export class OrderMenu {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  customerId: string;
-
   @ManyToOne(() => Order, (order) => order.orderMenus, { onDelete: 'CASCADE' })
   order: Order;
 
@@ -19,5 +16,5 @@ export class OrderMenu {
   quantity: number;
 
   @Column('int')
-  totalPrice: number;
+  totalPrice?: number;
 }

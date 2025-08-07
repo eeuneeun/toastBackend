@@ -1,7 +1,7 @@
-import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
+import { CreateOrderMenuDto } from 'src/order-menu/dto/create-order-menu.dto';
 
 export class CreateOrderDto {
   customerId: string;
-  createdAt: Date;
-  orderMenus: OrderMenu[];
+  storeId: number;
+  cartMenus: CreateOrderMenuDto[];
 }

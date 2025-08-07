@@ -21,15 +21,15 @@ export class OrderService {
   async create(dto: CreateOrderDto): Promise<Order | null> {
     const order = this.orderRepo.create({
       customerId: dto.customerId,
-      createdAt: dto.createdAt,
+      storeId: dto.storeId,
     });
     await this.orderRepo.save(order);
 
     const orderMenus: OrderMenu[] = [];
 
-    for (const item of dto.orderMenus) {
-      const menu = await this.menuRepo.findOne({ where: { id: item.id } });
-      if (!menu) throw new NotFoundException(`Menu ${item.id} not found`);
+    for (const item of dto.cartMenus) {
+      const menu = await this.menuRepo.findOne({ where: { id: item.menuId } });
+      if (!menu) throw new NotFoundException(`Menu ${item.menuId} not found`);
 
       const orderMenu = this.orderMenuRepo.create({
         order,
@@ -49,8 +49,9 @@ export class OrderService {
     });
   }
 
-  async findAll(): Promise<Order[]> {
+  async findAll(userId): Promise<Order[]> {
     return this.orderRepo.find({
+      where: { customerId: userId },
       relations: ['orderMenus', 'orderMenus.menu'],
       order: { id: 'DESC' },
     });
