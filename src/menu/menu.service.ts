@@ -28,6 +28,13 @@ export class MenuService {
 
   async findOne(id: number): Promise<Menu | null> {
     const result = await this.toastRepository.findOne({ where: { id: id } });
+    return result;
+  }
+
+  async findByCategory(category: string): Promise<Menu[] | null> {
+    const result = await this.toastRepository.find({
+      where: { category: category },
+    });
 
     return result;
   }

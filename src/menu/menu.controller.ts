@@ -36,6 +36,11 @@ export class MenuController {
     return this.menuService.findOne(+id);
   }
 
+  @Get('/category/:category')
+  findByCategory(@Param('category') category: string) {
+    return this.menuService.findByCategory(category);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
     return this.menuService.update(+id, updateMenuDto);
@@ -45,7 +50,6 @@ export class MenuController {
   remove(@Param('id') id: string) {
     return this.menuService.remove(+id);
   }
-  // upload.controller.ts
 
   @Post('upload')
   @UseInterceptors(
