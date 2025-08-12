@@ -13,7 +13,8 @@ import { SignInDto } from './dto/signin-user.dto';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User, 'userDBConnection')
+    private userRepository: Repository<User>,
   ) {
     this.userRepository = userRepository;
   }

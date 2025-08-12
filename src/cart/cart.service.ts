@@ -10,11 +10,11 @@ import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
 @Injectable()
 export class CartService {
   constructor(
-    @InjectRepository(Cart)
+    @InjectRepository(Cart, 'userDBConnection')
     private cartRepo: Repository<Cart>,
-    @InjectRepository(Menu)
+    @InjectRepository(Menu, 'userDBConnection')
     private menuRepo: Repository<Menu>,
-    @InjectRepository(CartMenu)
+    @InjectRepository(CartMenu, 'userDBConnection')
     private cartMenuRepo: Repository<CartMenu>,
   ) {}
 

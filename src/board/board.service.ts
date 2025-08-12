@@ -13,7 +13,8 @@ export class BoardService {
   //   this.onInitMapEntityColomns();
   // }
   constructor(
-    @InjectRepository(Board) private boardRepository: Repository<Board>,
+    @InjectRepository(Board, 'userDBConnection')
+    private boardRepository: Repository<Board>,
   ) {
     this.boardRepository = boardRepository;
   }

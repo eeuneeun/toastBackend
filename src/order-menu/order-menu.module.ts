@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OrderMenu } from './entities/order-menu.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrderMenu])],
+  imports: [TypeOrmModule.forFeature([OrderMenu], 'userDBConnection')],
   controllers: [OrderMenuController],
   providers: [OrderMenuService],
 })

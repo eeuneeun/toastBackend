@@ -10,7 +10,7 @@ import { CartModule } from 'src/cart/cart.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CartMenu, Cart, Menu]),
+    TypeOrmModule.forFeature([CartMenu, Cart, Menu], 'userDBConnection'),
     forwardRef(() => MenuModule),
     forwardRef(() => CartModule),
   ],

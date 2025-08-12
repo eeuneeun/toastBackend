@@ -8,7 +8,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class MenuService {
   constructor(
-    @InjectRepository(Menu) private toastRepository: Repository<Menu>,
+    @InjectRepository(Menu, 'userDBConnection')
+    private toastRepository: Repository<Menu>,
   ) {
     this.toastRepository = toastRepository;
   }

@@ -9,7 +9,7 @@ import { MenuModule } from 'src/menu/menu.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CartMenu, Cart, Menu]),
+    TypeOrmModule.forFeature([CartMenu, Cart, Menu], 'userDBConnection'),
     forwardRef(() => MenuModule),
   ],
 

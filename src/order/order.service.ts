@@ -10,14 +10,18 @@ import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Order)
+    @InjectRepository(Order, 'userDBConnection')
     private orderRepo: Repository<Order>,
-    @InjectRepository(Menu)
+    @InjectRepository(Menu, 'userDBConnection')
     private menuRepo: Repository<Menu>,
-    @InjectRepository(OrderMenu)
+    @InjectRepository(OrderMenu, 'userDBConnection')
     private orderMenuRepo: Repository<OrderMenu>,
   ) {}
 
+  // ★ 주문 생성
+  // 1. database.user > order insert
+  // 2. database.owner > order insert
+  // 3. 두 데이터 베이스 양방향 동기화 처리
   async create(dto: CreateOrderDto): Promise<Order | null> {
     const order = this.orderRepo.create({
       customerId: dto.customerId,

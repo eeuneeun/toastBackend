@@ -19,6 +19,9 @@ import { CartMenuModule } from './cart-menu/cart-menu.module';
 import { Cart } from './cart/entities/cart.entity';
 import { CartMenu } from './cart-menu/entities/cart-menu.entity';
 import { AuthModule } from './auth/auth.module';
+import { UserDbModule } from './user-db/user-db.module';
+import { OwnerDbModule } from './owner-db/owner-db.module';
+import { StoreModule } from './store/store.module';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -28,16 +31,8 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({
       envFilePath: ['.development.env'],
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: 3306,
-      username: 'root',
-      password: '1234',
-      database: 'board',
-      entities: [User, Board, Order, OrderMenu, Cart, CartMenu, Menu],
-      synchronize: true,
-    }),
+    UserDbModule, // User App 에서 사용되는 데이터 베이스
+    OwnerDbModule, // Owner App 에서 사용되는 데이터 베이스
     UserModule,
     BoardModule,
     CartModule,
@@ -47,6 +42,9 @@ import { AuthModule } from './auth/auth.module';
     OrderMenuModule,
     CartMenuModule,
     AuthModule,
+    UserDbModule,
+    OwnerDbModule,
+    StoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,9 @@ import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 import { Menu } from 'src/menu/entities/menu.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, OrderMenu, Menu])],
+  imports: [
+    TypeOrmModule.forFeature([Order, OrderMenu, Menu], 'userDBConnection'),
+  ],
   controllers: [OrderController],
   providers: [OrderService],
 })

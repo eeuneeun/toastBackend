@@ -9,7 +9,7 @@ import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Cart, CartMenu, Menu]),
+    TypeOrmModule.forFeature([Cart, CartMenu, Menu], 'userDBConnection'),
     forwardRef(() => CartModule),
   ],
   controllers: [MenuController],
