@@ -89,9 +89,10 @@ export class CartService {
 
   async getByCustomerId(customerId: string) {
     const cart = await this.cartRepo.findOne({
-      where: { customerId },
+      where: { customerId: customerId },
       relations: ['cartMenus', 'cartMenus.menu'],
     });
+    console.log(cart);
     return cart;
   }
 
@@ -101,6 +102,23 @@ export class CartService {
       cart = await this.createCart(customerId, []);
     }
     return cart;
+  }
+
+  async updateMenuQuantity(cartId: number, menuId: number, quantity: number) {
+    const cartMenu = await this.cartMenuRepo.findOne({
+      where: {
+        cart: { id: cartId },
+        menu: { id: menuId },
+      },
+      relations: ['cart', 'menu'],
+    });
+    if (!cartMenu) {
+      throw new NotFoundException('CartMenu not found');
+    }
+
+    cartMenu.quantity = quantity;
+    await this.cartMenuRepo.save(cartMenu);
+    return cartMenu;
   }
 
   async removeMenuFromCart(cartMenuId: number) {

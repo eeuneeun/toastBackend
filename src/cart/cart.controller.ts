@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { UpdateCartMenuDto } from 'src/cart-menu/dto/update-cart-menu.dto';
 
 @Controller('cart')
 export class CartController {
@@ -65,6 +67,16 @@ export class CartController {
     totalPrice: number,
   ) {
     return this.cartService.addMenuToCart(cartId, menuId, quantity, totalPrice);
+  }
+
+  @Patch('/:cartId/menu/:menuId')
+  async updateQuantity(
+    @Param('cartId', ParseIntPipe) cartId: number,
+    @Param('menuId', ParseIntPipe) menuId: number,
+    @Body() dto: UpdateCartMenuDto,
+  ) {
+    console.log(menuId, dto);
+    return this.cartService.updateMenuQuantity(cartId, menuId, dto.quantity!);
   }
 
   @Delete(':cartId')
