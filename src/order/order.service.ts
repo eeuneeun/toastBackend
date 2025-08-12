@@ -53,9 +53,9 @@ export class OrderService {
     });
   }
 
-  async findAll(userId): Promise<Order[]> {
+  async findAll(customerId): Promise<Order[]> {
     return this.orderRepo.find({
-      where: { customerId: userId },
+      where: { customerId: customerId },
       relations: ['orderMenus', 'orderMenus.menu'],
       order: { id: 'DESC' },
     });

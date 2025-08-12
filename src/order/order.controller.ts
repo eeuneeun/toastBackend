@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Headers,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -21,7 +22,7 @@ export class OrderController {
   }
 
   @Get()
-  findAll(customerId: string) {
+  findAll(@Headers('customerId') customerId: string) {
     return this.orderService.findAll(customerId);
   }
 
