@@ -18,6 +18,9 @@ export class Order {
   @Column()
   storeId: number;
 
+  @Column()
+  totalPrice: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

@@ -26,6 +26,7 @@ export class OrderService {
     const order = this.orderRepo.create({
       customerId: dto.customerId,
       storeId: dto.storeId,
+      totalPrice: dto.totalPrice,
     });
     await this.orderRepo.save(order);
 
