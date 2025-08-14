@@ -22,7 +22,7 @@ import { Option } from './entities/Option';
     TypeOrmModule.forRoot({
       name: 'ownerDBConnection',
       type: 'mariadb',
-      host: process.env.DB_HOST,
+      host: 'toastapp.cpowqiy80fmc.ap-northeast-2.rds.amazonaws.com',
       port: 3306,
       username: 'euneun',
       password: 'qwer1234',
