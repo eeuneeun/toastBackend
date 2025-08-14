@@ -24,8 +24,8 @@ import { Option } from './entities/Option';
       type: 'mariadb',
       host: process.env.DB_HOST,
       port: 3306,
-      username: 'root',
-      password: '1234',
+      username: 'euneun',
+      password: 'qwer1234',
       database: 'owner',
       entities: [
         Group,
