@@ -13,13 +13,34 @@ export class Order {
   id: number;
 
   @Column()
-  customerId: string;
-
-  @Column()
   storeId: number;
 
   @Column()
   totalPrice: number;
+
+  @Column()
+  paymentMethod: string;
+
+  @Column()
+  customerId: string;
+
+  @Column()
+  customerName: string;
+
+  @Column()
+  customerPhone: string;
+
+  @Column()
+  deliveryMethod: string;
+
+  @Column()
+  deliveryAddress: string;
+
+  @Column()
+  status: string;
+
+  @CreateDateColumn()
+  updatedAt: Date;
 
   @CreateDateColumn()
   createdAt: Date;
