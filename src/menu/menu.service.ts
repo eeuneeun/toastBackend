@@ -15,7 +15,6 @@ export class MenuService {
   }
 
   async create(newMenu: Menu): Promise<Menu> {
-    console.log(newMenu);
     const result = await this.toastRepository.save({
       ...newMenu,
     });

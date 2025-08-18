@@ -39,7 +39,6 @@ export class OrderService {
 
       status: dto.paymentInfo.status,
     });
-    console.log('order', order);
     await this.orderRepo.save(order);
 
     // const ownerOrder = this.ownerOrderRepo.create({
@@ -82,6 +81,14 @@ export class OrderService {
     });
   }
 
+  async findByStore(storeId): Promise<Order[]> {
+    return this.orderRepo.find({
+      where: { storeId: storeId },
+      relations: ['orderMenus', 'orderMenus.menu'],
+      order: { id: 'DESC' },
+    });
+  }
+
   async findOne(id: number): Promise<Order> {
     const order = await this.orderRepo.findOne({
       where: { id },
@@ -91,8 +98,14 @@ export class OrderService {
     return order;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action removes a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    const order = await this.orderRepo.findOne({ where: { id } });
+    if (!order) {
+      throw new NotFoundException(`Order with id ${id} not found`);
+    }
+
+    order.status = updateOrderDto.status;
+    return this.orderRepo.save(order);
   }
 
   remove(id: number) {

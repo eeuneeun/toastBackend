@@ -21,11 +21,19 @@ export class OrderController {
     return this.orderService.create(createOrderDto);
   }
 
+  // 유저의 모든 주문건
   @Get()
   findAll(@Headers('customerId') customerId: string) {
     return this.orderService.findAll(customerId);
   }
 
+  // 해당 가게의 모든 주문건
+  @Get('/store/:storeId')
+  findByStore(@Param('storeId') storeId: string) {
+    return this.orderService.findByStore(storeId);
+  }
+
+  // 특정 주문 한 건
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id);

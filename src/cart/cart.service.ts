@@ -92,7 +92,6 @@ export class CartService {
       where: { customerId: customerId },
       relations: ['cartMenus', 'cartMenus.menu'],
     });
-    console.log(cart);
     return cart;
   }
 

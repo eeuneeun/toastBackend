@@ -24,7 +24,6 @@ export class CartController {
       createCartDto.customerId,
       createCartDto.cartMenus,
     );
-    console.log(result);
     return result;
   }
 
@@ -75,13 +74,11 @@ export class CartController {
     @Param('menuId', ParseIntPipe) menuId: number,
     @Body() dto: UpdateCartMenuDto,
   ) {
-    console.log(menuId, dto);
     return this.cartService.updateMenuQuantity(cartId, menuId, dto.quantity!);
   }
 
   @Delete(':cartId')
   remove(@Param('cartId') cartId: number) {
-    console.log(cartId);
     return this.cartService.deleteCart(cartId);
   }
 }
