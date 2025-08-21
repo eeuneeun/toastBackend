@@ -1,1 +1,1 @@
-export class OwnerDb {}
+export class OwnerDb{}

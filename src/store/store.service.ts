@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { Store } from 'src/owner-db/entities/Store';
+import { Store } from 'src/merchant-db/entities/Store';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class StoreService {
   constructor(
-    @InjectRepository(Store, 'ownerDBConnection')
+    @InjectRepository(Store, 'merchantDBConnection')
     private storeRepo: Repository<Store>,
   ) {}
 

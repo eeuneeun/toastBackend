@@ -2,21 +2,19 @@ import { Module } from '@nestjs/common';
 import { OwnerDbService } from './owner-db.service';
 import { OwnerDbController } from './owner-db.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OwnerDb } from './entities/owner-db.entity';
 import { Store } from './entities/Store';
 import { Menu } from './entities/Menu';
 import { User } from './entities/User';
-import { Group } from './entities/Group';
 import { MenuGroups } from './entities/MenuGroups';
 import { MenuOption } from './entities/MenuOption';
 import { MenuOptionGroups } from './entities/MenuOptionGroups';
 import { OptionGroups } from './entities/OptionGroups';
-import { OrderMenu } from './entities/OrderMenu';
-import { Orders } from './entities/Orders';
 import { SelectedMenuOption } from './entities/SelectedMenuOption';
 import { SelectedOption } from './entities/SelectedOption';
 import { Option } from './entities/Option';
-
+import { OwnerDb } from './entities/owner-db.entity';
+import { Groups } from './entities/Groups';
+import { OptionByGroup } from './entities/OptionByGroup';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -28,15 +26,14 @@ import { Option } from './entities/Option';
       password: 'qwer1234',
       database: 'owner',
       entities: [
-        Group,
+        Groups,
         Menu,
         MenuGroups,
         MenuOption,
         MenuOptionGroups,
         Option,
+        OptionByGroup,
         OptionGroups,
-        OrderMenu,
-        Orders,
         SelectedMenuOption,
         SelectedOption,
         Store,
@@ -50,3 +47,5 @@ import { Option } from './entities/Option';
   providers: [OwnerDbService],
 })
 export class OwnerDbModule {}
+
+// typeorm-model-generator -h toastapp.cpowqiy80fmc.ap-northeast-2.rds.amazonaws.com -d owner -u euneun -x qwer1234 -e mariadb -o ./src/entities

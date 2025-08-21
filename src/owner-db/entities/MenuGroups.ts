@@ -1,15 +1,5 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { Group } from "./Group";
-import { Menu } from "./Menu";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Index("FK1hxqsom5l9k3n4i5v4g90od0r", ["groupId"], {})
 @Index("FKd9u4w7154t77exvcoc9tmdgvk", ["menuId"], {})
 @Entity("menu_groups", { schema: "owner" })
 export class MenuGroups {
@@ -25,17 +15,6 @@ export class MenuGroups {
   @Column("bigint", { name: "menu_id", nullable: true })
   menuId: string | null;
 
-  @ManyToOne(() => Group, (group) => group.menuGroups, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "group_id", referencedColumnName: "id" }])
-  group: Group;
-
-  @ManyToOne(() => Menu, (menu) => menu.menuGroups, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "menu_id", referencedColumnName: "menuId" }])
-  menu: Menu;
+  @Column("bigint", { name: "groups_id", nullable: true })
+  groupsId: string | null;
 }

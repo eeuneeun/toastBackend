@@ -3,7 +3,6 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { Orders } from 'src/owner-db/entities/Orders';
 import { Repository } from 'typeorm';
 import { Menu } from 'src/menu/entities/menu.entity';
 import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
@@ -11,8 +10,6 @@ import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 @Injectable()
 export class OrderService {
   constructor(
-    @InjectRepository(Orders, 'ownerDBConnection')
-    private ownerOrderRepo: Repository<Order>,
     @InjectRepository(Order, 'userDBConnection')
     private orderRepo: Repository<Order>,
     @InjectRepository(Menu, 'userDBConnection')

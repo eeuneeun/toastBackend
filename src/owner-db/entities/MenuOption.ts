@@ -1,15 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { OptionGroups } from "./OptionGroups";
-import { Menu } from "./Menu";
-import { SelectedMenuOption } from "./SelectedMenuOption";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Index("FKlr6b5i0f2uomfr8u2q3tt2q9f", ["menuId"], {})
 @Index("FKhkcy891unac9ltx7pqa98lu1m", ["optionGroupId"], {})
@@ -35,24 +24,4 @@ export class MenuOption {
 
   @Column("bigint", { name: "option_group_id", nullable: true })
   optionGroupId: string | null;
-
-  @ManyToOne(() => OptionGroups, (optionGroups) => optionGroups.menuOptions, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "option_group_id", referencedColumnName: "id" }])
-  optionGroup: OptionGroups;
-
-  @ManyToOne(() => Menu, (menu) => menu.menuOptions, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "menu_id", referencedColumnName: "menuId" }])
-  menu: Menu;
-
-  @OneToMany(
-    () => SelectedMenuOption,
-    (selectedMenuOption) => selectedMenuOption.menuOptionMenuOption
-  )
-  selectedMenuOptions: SelectedMenuOption[];
 }

@@ -1,13 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { OrderMenu } from "./OrderMenu";
-import { MenuOption } from "./MenuOption";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Index("FK8xi606dt4yl0y97a5kka5xqdf", ["menuOptionMenuOptionId"], {})
 @Index("FK8ekw6mdky9rcumf6g5hxk8pkl", ["orderMenuId"], {})
@@ -27,23 +18,4 @@ export class SelectedMenuOption {
 
   @Column("int", { name: "quantity" })
   quantity: number;
-
-  @ManyToOne(() => OrderMenu, (orderMenu) => orderMenu.selectedMenuOptions, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([{ name: "order_menu_id", referencedColumnName: "orderMenuId" }])
-  orderMenu: OrderMenu;
-
-  @ManyToOne(() => MenuOption, (menuOption) => menuOption.selectedMenuOptions, {
-    onDelete: "RESTRICT",
-    onUpdate: "RESTRICT",
-  })
-  @JoinColumn([
-    {
-      name: "menu_option_menu_option_id",
-      referencedColumnName: "menuOptionId",
-    },
-  ])
-  menuOptionMenuOption: MenuOption;
 }

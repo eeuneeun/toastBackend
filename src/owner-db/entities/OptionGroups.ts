@@ -1,6 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { MenuOption } from "./MenuOption";
-import { MenuOptionGroups } from "./MenuOptionGroups";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("option_groups", { schema: "owner" })
 export class OptionGroups {
@@ -21,13 +19,4 @@ export class OptionGroups {
 
   @Column("bigint", { name: "option_id" })
   optionId: string;
-
-  @OneToMany(() => MenuOption, (menuOption) => menuOption.optionGroup)
-  menuOptions: MenuOption[];
-
-  @OneToMany(
-    () => MenuOptionGroups,
-    (menuOptionGroups) => menuOptionGroups.optionGroup
-  )
-  menuOptionGroups: MenuOptionGroups[];
 }
