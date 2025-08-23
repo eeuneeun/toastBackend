@@ -1,43 +1,47 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "./User";
+import { Menu } from "./Menu";
 
-@Entity("store", { schema: "owner" })
+@Entity("store", { schema: "merchant" })
 export class Store {
-  @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  id: number;
 
-  @Column("varchar", { name: "address", nullable: true, length: 255 })
-  address: string | null;
+  @Column("varchar", { name: "name", length: 255 })
+  name: string;
 
-  @Column("varchar", { name: "business_num", nullable: true, length: 255 })
-  businessNum: string | null;
+  @Column("varchar", { name: "address", length: 255 })
+  address: string;
 
-  @Column("datetime", { name: "created_at", nullable: true })
-  createdAt: Date | null;
+  @Column("varchar", { name: "postNum", length: 255 })
+  postNum: string;
 
-  @Column("varchar", { name: "description", nullable: true, length: 255 })
-  description: string | null;
+  @Column("varchar", { name: "tel", length: 255 })
+  tel: string;
 
-  @Column("varchar", { name: "img_url", nullable: true, length: 255 })
-  imgUrl: string | null;
+  @Column("varchar", { name: "businessNum", length: 255 })
+  businessNum: string;
 
-  @Column("float", { name: "lat", nullable: true, precision: 12 })
-  lat: number | null;
+  @Column("varchar", { name: "desc", length: 255 })
+  desc: string;
 
-  @Column("float", { name: "longti", nullable: true, precision: 12 })
-  longti: number | null;
+  @Column("varchar", { name: "imgUrl", length: 255 })
+  imgUrl: string;
 
-  @Column("varchar", { name: "phone", nullable: true, length: 255 })
-  phone: string | null;
+  @ManyToOne(() => User, (user) => user.stores, {
+    onDelete: "CASCADE",
+    onUpdate: "NO ACTION",
+  })
+  @JoinColumn([{ name: "ownerId", referencedColumnName: "id" }])
+  owner: User;
 
-  @Column("varchar", { name: "post_num", nullable: true, length: 255 })
-  postNum: string | null;
-
-  @Column("varchar", { name: "store_name", nullable: true, length: 255 })
-  storeName: string | null;
-
-  @Column("datetime", { name: "updated_at", nullable: true })
-  updatedAt: Date | null;
-
-  @Column("bigint", { name: "user_id", nullable: true })
-  userId: string | null;
+  @OneToMany(() => Menu, (menu) => menu.store)
+  menus: Menu[];
 }

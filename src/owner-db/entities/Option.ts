@@ -1,29 +1,40 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Group } from "./Group";
 
-@Index("FKd0120l8q2tc2y0umejmb9pb66", ["optionByGroupId"], {})
-@Entity("option", { schema: "owner" })
+@Entity("option", { schema: "merchant" })
 export class Option {
-  @Column("varchar", { name: "category", nullable: true, length: 255 })
-  category: string | null;
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  id: number;
 
-  @Column("varchar", { name: "des", nullable: true, length: 255 })
-  des: string | null;
+  @Column("varchar", { name: "name", length: 255 })
+  name: string;
 
-  @Column("varchar", { name: "img_url", nullable: true, length: 255 })
+  @Column("decimal", {
+    name: "price",
+    precision: 10,
+    scale: 2,
+    default: () => "'0.00'",
+  })
+  price: string;
+
+  @Column("varchar", { name: "desc", nullable: true, length: 255 })
+  desc: string | null;
+
+  @Column("varchar", { name: "imgUrl", nullable: true, length: 255 })
   imgUrl: string | null;
 
-  @Column("varchar", { name: "name", nullable: true, length: 255 })
-  name: string | null;
-
-  @Column("int", { name: "price" })
-  price: number;
-
-  @Column("bigint", { name: "option_by_group_id", nullable: true })
-  optionByGroupId: string | null;
-
-  @Column("int", { name: "option_price" })
-  optionPrice: number;
-
-  @PrimaryGeneratedColumn({ type: "bigint", name: "option_id" })
-  optionId: string;
+  @ManyToMany(() => Group, (group) => group.options)
+  @JoinTable({
+    name: "group_options",
+    joinColumns: [{ name: "option_id", referencedColumnName: "id" }],
+    inverseJoinColumns: [{ name: "group_id", referencedColumnName: "id" }],
+    schema: "merchant",
+  })
+  groups: Group[];
 }

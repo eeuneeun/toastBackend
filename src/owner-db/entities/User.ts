@@ -1,40 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Store } from "./Store";
 
-@Entity("user", { schema: "owner" })
+@Entity("user", { schema: "merchant" })
 export class User {
-  @PrimaryGeneratedColumn({ type: "bigint", name: "id" })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  id: number;
 
-  @Column("varchar", { name: "area", nullable: true, length: 255 })
-  area: string | null;
+  @Column("varchar", { name: "userId", length: 255 })
+  userId: string;
 
-  @Column("datetime", { name: "created_at", nullable: true })
-  createdAt: Date | null;
+  @Column("varchar", { name: "password", length: 255 })
+  password: string;
 
-  @Column("varchar", { name: "email", nullable: true, length: 255 })
-  email: string | null;
+  @Column("varchar", { name: "name", length: 255 })
+  name: string;
 
-  @Column("varchar", { name: "nickname", nullable: true, length: 255 })
-  nickname: string | null;
+  @Column("varchar", { name: "email", length: 255 })
+  email: string;
 
-  @Column("varchar", { name: "note", nullable: true, length: 255 })
-  note: string | null;
-
-  @Column("varchar", { name: "password", nullable: true, length: 255 })
-  password: string | null;
-
-  @Column("varchar", { name: "phone", nullable: true, length: 255 })
-  phone: string | null;
-
-  @Column("varchar", { name: "refresh_token", nullable: true, length: 255 })
-  refreshToken: string | null;
-
-  @Column("varchar", { name: "user_id", nullable: true, length: 255 })
-  userId: string | null;
-
-  @Column("varchar", { name: "username", nullable: true, length: 255 })
-  username: string | null;
-
-  @Column("varchar", { name: "ceo_name", nullable: true, length: 255 })
-  ceoName: string | null;
+  @OneToMany(() => Store, (store) => store.owner)
+  stores: Store[];
 }

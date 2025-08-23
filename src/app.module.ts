@@ -22,7 +22,6 @@ import { AuthModule } from './auth/auth.module';
 import { UserDbModule } from './user-db/user-db.module';
 import { OwnerDbModule } from './owner-db/owner-db.module';
 import { StoreModule } from './store/store.module';
-import { MerchantDbModule } from './merchant-db/merchant-db.module';
 
 // 명령어
 // $ npx @nestjs/cli g resource [패키지 이름]
@@ -34,7 +33,6 @@ import { MerchantDbModule } from './merchant-db/merchant-db.module';
     }),
     UserDbModule, // User App 에서 사용되는 데이터 베이스
     OwnerDbModule, // Owner App 에서 사용되는 데이터 베이스
-    MerchantDbModule, // Merchant App 에서 사용되는 데이터 베이스
     UserModule,
     BoardModule,
     CartModule,

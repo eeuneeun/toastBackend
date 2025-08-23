@@ -1,22 +1,41 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { MenuGroup } from "./MenuGroup";
+import { Store } from "./Store";
 
-@Index('FK4sgenfcmk1jajhgctnkpn5erg', ['storeId'], {})
-@Entity('menu', { schema: 'owner' })
+@Entity("menu", { schema: "merchant" })
 export class Menu {
-  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id' })
-  id: string;
-  @Column('varchar', { name: 'des', nullable: true, length: 255 })
-  des: string | null;
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
+  id: number;
 
-  @Column('varchar', { name: 'img_url', nullable: true, length: 255 })
-  imgUrl: string | null;
+  @Column("varchar", { name: "category", length: 255 })
+  category: string;
 
-  @Column('varchar', { name: 'name', nullable: true, length: 255 })
-  name: string | null;
+  @Column("varchar", { name: "name", length: 255 })
+  name: string;
 
-  @Column('int', { name: 'price' })
-  price: number;
+  @Column("varchar", { name: "desc", length: 255 })
+  desc: string;
 
-  @Column('bigint', { name: 'store_id', nullable: true })
-  storeId: string | null;
+  @Column("decimal", { name: "price", precision: 10, scale: 2 })
+  price: string;
+
+  @Column("varchar", { name: "imgUrl", length: 255 })
+  imgUrl: string;
+
+  @OneToMany(() => MenuGroup, (menuGroup) => menuGroup.menu)
+  menuGroups: MenuGroup[];
+
+  @ManyToOne(() => Store, (store) => store.menus, {
+    onDelete: "CASCADE",
+    onUpdate: "NO ACTION",
+  })
+  @JoinColumn([{ name: "storeId", referencedColumnName: "id" }])
+  store: Store;
 }
