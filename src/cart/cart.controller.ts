@@ -45,7 +45,7 @@ export class CartController {
 
   @Get('customer/:customerId')
   async getByCustomer(@Param('customerId') customerId: string) {
-    const cart = await this.cartService.getByCustomerId(customerId);
+    const cart = await this.cartService.getCartByCustomerId(customerId);
     if (!cart) {
       throw new NotFoundException('Cart not found');
     }

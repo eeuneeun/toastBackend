@@ -8,7 +8,9 @@ import { Store } from './entities/Store';
 import { User } from './entities/User';
 import { Group } from './entities/Group';
 import { Option } from './entities/Option';
-import { OwnerDb } from './entities/owner-db.entity';
+
+import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
+import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,7 +24,6 @@ import { OwnerDb } from './entities/owner-db.entity';
       entities: [Group, Menu, MenuGroup, Option, Store, User],
       synchronize: true,
     }),
-    TypeOrmModule.forFeature([OwnerDb], 'ownerDBConnection'),
   ],
   controllers: [OwnerDbController],
   providers: [OwnerDbService],

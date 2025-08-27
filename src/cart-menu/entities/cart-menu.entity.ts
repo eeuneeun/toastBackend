@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Menu } from '../../menu/entities/menu.entity';
 import { Cart } from '../../cart/entities/cart.entity';
 @Entity()
 export class CartMenu {
@@ -11,8 +10,8 @@ export class CartMenu {
   @ManyToOne(() => Cart, (cart) => cart.cartMenus, { onDelete: 'CASCADE' })
   cart: Cart;
 
-  @ManyToOne(() => Menu, (menu) => menu.cartMenus)
-  menu: Menu;
+  @Column()
+  menuId: number;
 
   @Column('int')
   quantity: number;

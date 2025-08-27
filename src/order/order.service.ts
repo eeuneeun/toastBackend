@@ -3,8 +3,8 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { Repository } from 'typeorm';
-import { Menu } from 'src/menu/entities/menu.entity';
+import { In, Repository } from 'typeorm';
+import { Menu } from 'src/owner-db/entities/Menu';
 import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class OrderService {
   constructor(
     @InjectRepository(Order, 'userDBConnection')
     private orderRepo: Repository<Order>,
-    @InjectRepository(Menu, 'userDBConnection')
+    @InjectRepository(Menu, 'ownerDBConnection')
     private menuRepo: Repository<Menu>,
     @InjectRepository(OrderMenu, 'userDBConnection')
     private orderMenuRepo: Repository<OrderMenu>,
@@ -52,47 +52,111 @@ export class OrderService {
       const menu = await this.menuRepo.findOne({ where: { id: item.menuId } });
       if (!menu) throw new NotFoundException(`Menu ${item.menuId} not found`);
 
+      console.log('menu', menu);
       const orderMenu = this.orderMenuRepo.create({
         order,
-        menu,
+        menuId: menu.id,
         quantity: item.quantity,
-        totalPrice: menu.price * item.quantity,
+        totalPrice: Number(menu.price) * item.quantity,
       });
+      console.log('orderMenu', orderMenu);
 
       orderMenus.push(orderMenu);
     }
 
     await this.orderMenuRepo.save(orderMenus);
 
-    return this.orderRepo.findOne({
+    const resultOrder = await this.orderRepo.findOne({
       where: { id: order.id },
-      relations: ['orderMenus', 'orderMenus.menu'],
+      relations: ['orderMenus'],
     });
+    if (!resultOrder) return null;
+
+    // 2️⃣ 메뉴 IDs 추출 (ownerDB)
+    const menuIds = resultOrder.orderMenus.map((om) => om.menuId);
+
+    // 3️⃣ ownerDB에서 메뉴 조회
+    const menus = await this.menuRepo.find({
+      where: { id: In(menuIds) },
+    });
+
+    // 4️⃣ orderMenus에 메뉴 매핑
+    resultOrder.orderMenus.forEach((om) => {
+      om['menu'] = menus.find((m) => m.id === om.menuId);
+    });
+
+    return resultOrder;
+  }
+  ///////////////////////////////////////////////////////////////
+  async getMenuByCondition(
+    condition: string,
+    value: any,
+  ): Promise<Order[] | null> {
+    const resultOrders = await this.orderRepo.find({
+      where: { [condition]: value },
+      relations: ['orderMenus'],
+    });
+    if (!resultOrders.length) return null;
+
+    // 2️⃣ 모든 메뉴 IDs 추출
+    const menuIds = resultOrders.flatMap((o) =>
+      o.orderMenus.map((om) => om.menuId),
+    );
+
+    // 3️⃣ ownerDB에서 메뉴 조회
+    const menus = await this.menuRepo.find({
+      where: { id: In(menuIds) },
+    });
+
+    // 4️⃣ 각 orderMenus에 메뉴 매핑
+    resultOrders.forEach((order) => {
+      order.orderMenus.forEach((om) => {
+        om['menu'] = menus.find((m) => m.id === om.menuId);
+      });
+    });
+
+    console.log('resultOrders', resultOrders);
+    return resultOrders;
   }
 
-  async findAll(customerId): Promise<Order[]> {
-    return this.orderRepo.find({
-      where: { customerId: customerId },
-      relations: ['orderMenus', 'orderMenus.menu'],
-      order: { id: 'DESC' },
-    });
+  async findAll(customerId): Promise<any[] | null> {
+    // return this.orderRepo.find({
+    //   where: { customerId: customerId },
+    //   relations: ['orderMenus'],
+    //   order: { id: 'DESC' },
+    // });
+    const result = await this.getMenuByCondition('customerId', customerId);
+    if (!result) return null;
+
+    //@ts-ignore
+    return result;
   }
 
-  async findByStore(storeId): Promise<Order[]> {
-    return this.orderRepo.find({
-      where: { storeId: storeId },
-      relations: ['orderMenus', 'orderMenus.menu'],
-      order: { id: 'DESC' },
-    });
+  async findByStore(storeId): Promise<Order[] | null> {
+    // return this.orderRepo.find({
+    //   where: { storeId: storeId },
+    //   relations: ['orderMenus'],
+    //   order: { id: 'DESC' },
+    // });
+
+    const result = await this.getMenuByCondition('storeId', storeId);
+    if (!result) return null;
+
+    //@ts-ignore
+    return result;
   }
 
-  async findOne(id: number): Promise<Order> {
-    const order = await this.orderRepo.findOne({
-      where: { id },
-      relations: ['orderMenus', 'orderMenus.menu'],
-    });
-    if (!order) throw new NotFoundException('Order not found');
-    return order;
+  async findOne(id: number): Promise<Order | null> {
+    // const order = await this.orderRepo.findOne({
+    //   where: { id },
+    //   relations: ['orderMenus'],
+    // });
+    // if (!order) throw new NotFoundException('Order not found');
+    const result = await this.getMenuByCondition('id', id);
+    if (!result) return null;
+
+    //@ts-ignore
+    return result;
   }
 
   async update(id: number, updateOrderDto: UpdateOrderDto) {
