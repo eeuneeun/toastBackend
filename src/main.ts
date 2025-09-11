@@ -20,6 +20,6 @@ async function bootstrap() {
   // /uploads 경로로 접근 가능하도록 설정
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
-  await app.listen(process.env.PORT ?? 4000);
+  await app.listen(process.env.PORT ?? 4000, '0.0.0.0');
 }
 bootstrap();
