@@ -16,10 +16,10 @@ import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
     TypeOrmModule.forRoot({
       name: 'ownerDBConnection',
       type: 'mariadb',
-      host: 'localhost',
+      host: '34.64.34.242',
       port: 3306,
       username: 'root',
-      password: '1234',
+      password: 'Xhtmxm1357!',
       database: 'merchant',
       entities: [Group, Menu, MenuGroup, Option, Store, User],
       synchronize: true,

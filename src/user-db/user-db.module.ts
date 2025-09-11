@@ -14,10 +14,10 @@ import { UserDb } from './entities/user-db.entity';
     TypeOrmModule.forRoot({
       name: 'userDBConnection',
       type: 'mariadb',
-      host: 'localhost',
+      host: '34.64.34.242',
       port: 3306,
       username: 'root',
-      password: '1234',
+      password: 'Xhtmxm1357!',
       database: 'user',
       entities: [User, Board, Order, OrderMenu, Cart, CartMenu],
       synchronize: true,
