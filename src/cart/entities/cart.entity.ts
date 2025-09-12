@@ -14,7 +14,7 @@ export class Cart {
   @Column()
   customerId: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @OneToMany(() => CartMenu, (cm) => cm.cart, {

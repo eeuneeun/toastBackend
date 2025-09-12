@@ -42,7 +42,7 @@ export class Order {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
   @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order, {
