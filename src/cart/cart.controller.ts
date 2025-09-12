@@ -27,7 +27,7 @@ export class CartController {
     return result;
   }
 
-  @Post('add')
+  @Post('/add')
   async addItem(@Body() createAddDto: CreateAddDto) {
     return this.cartService.addItem(createAddDto);
   }
