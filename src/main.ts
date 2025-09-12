@@ -12,8 +12,9 @@ async function bootstrap() {
       'http://localhost:3030',
       'http://34.158.210.111:3000',
       'http://34.158.207.71:3030',
+      '*',
     ], // Next.js (프론트) 주소
-    credentials: true, // 쿠키/인증정보 허용할 경우
+    //credentials: true, // 쿠키/인증정보 허용할 경우
     allowedHeaders: ['Content-Type', 'Authorization'], // 필요 시 확장
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
