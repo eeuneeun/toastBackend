@@ -35,13 +35,13 @@ export class CartController {
     return this.cartService.addItem(createAddDto);
   }
   // OPTIONS preflight 처리
-  @Options('add')
-  handleOptions(@Res() res: Response) {
-    res.header('Access-Control-Allow-Origin', 'http://34.158.210.111:3000'); // 프론트 도메인
-    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.sendStatus(HttpStatus.NO_CONTENT); // 204 응답
-  }
+  // @Options('add')
+  // handleOptions(@Res() res: Response) {
+  //   res.header('Access-Control-Allow-Origin', 'http://34.158.210.111:3000'); // 프론트 도메인
+  //   res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  //   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  //   res.sendStatus(HttpStatus.NO_CONTENT); // 204 응답
+  // }
 
   @Get(':cartId')
   findAll(cartId: number) {
