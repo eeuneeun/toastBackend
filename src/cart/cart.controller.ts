@@ -10,7 +10,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { CreateCartDto } from './dto/create-cart.dto';
+import { CreateCartDto, CreateAddDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { UpdateCartMenuDto } from 'src/cart-menu/dto/update-cart-menu.dto';
 
@@ -28,14 +28,8 @@ export class CartController {
   }
 
   @Post('add')
-  async addItem(
-    @Body() body: { customerId: string; menuId: number; quantity: number },
-  ) {
-    return this.cartService.addItem(
-      body.customerId,
-      body.menuId,
-      body.quantity,
-    );
+  async addItem(@Body() createAddDto: CreateAddDto) {
+    return this.cartService.addItem(createAddDto);
   }
 
   @Get(':cartId')

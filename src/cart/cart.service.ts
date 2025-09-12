@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCartDto } from './dto/create-cart.dto';
+import { CreateAddDto, CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
@@ -58,31 +58,37 @@ export class CartService {
     return response;
   }
 
-  async addItem(customerId: string, menuId: number, quantity: number) {
-    let cart = await this.getCartByCustomerId(customerId);
+  async addItem(createAddDto: CreateAddDto) {
+    let cart = await this.getCartByCustomerId(createAddDto.customerId);
 
     // 장바구니 없으면 새로 생성
     if (!cart) {
-      return this.createCart(customerId, [{ menuId, quantity }]);
+      return this.createCart(createAddDto.customerId, [
+        { menuId: createAddDto.menuId, quantity: createAddDto.quantity },
+      ]);
     }
 
     // 해당 메뉴가 이미 있는지 확인
-    const existingItem = cart.cartMenus.find((cm) => cm.menuId === menuId);
+    const existingItem = cart.cartMenus.find(
+      (cm) => cm.menuId === createAddDto.menuId,
+    );
     if (existingItem) {
-      existingItem.quantity += quantity;
+      existingItem.quantity += createAddDto.quantity;
       await this.cartMenuRepo.save(existingItem);
     } else {
-      const menu = await this.menuRepo.findOneByOrFail({ id: menuId });
+      const menu = await this.menuRepo.findOneByOrFail({
+        id: createAddDto.menuId,
+      });
       const newItem = this.cartMenuRepo.create({
         cart,
         menuId: menu.id,
-        quantity,
+        quantity: createAddDto.quantity,
       });
       await this.cartMenuRepo.save(newItem);
     }
 
     // 변경된 장바구니 반환
-    return this.getCartByCustomerId(customerId);
+    return this.getCartByCustomerId(createAddDto.customerId);
   }
 
   async addMenuToCart(cartId, menuId, quantity, totalPrice) {}
