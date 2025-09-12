@@ -8,6 +8,9 @@ import {
   Delete,
   NotFoundException,
   ParseIntPipe,
+  Options,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto, CreateAddDto } from './dto/create-cart.dto';
@@ -27,9 +30,17 @@ export class CartController {
     return result;
   }
 
-  @Post('/add')
+  @Post('add')
   async addItem(@Body() createAddDto: CreateAddDto) {
     return this.cartService.addItem(createAddDto);
+  }
+  // OPTIONS preflight 처리
+  @Options('add')
+  handleOptions(@Res() res: Response) {
+    res.header('Access-Control-Allow-Origin', 'http://34.158.210.111:3000'); // 프론트 도메인
+    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.sendStatus(HttpStatus.NO_CONTENT); // 204 응답
   }
 
   @Get(':cartId')
