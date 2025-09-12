@@ -59,6 +59,7 @@ export class CartService {
   }
 
   async addItem(createAddDto: CreateAddDto) {
+    console.log(createAddDto);
     let cart = await this.getCartByCustomerId(createAddDto.customerId);
 
     // 장바구니 없으면 새로 생성
