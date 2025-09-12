@@ -21,6 +21,7 @@ import { UserDb } from './entities/user-db.entity';
       database: 'user',
       entities: [User, Board, Order, OrderMenu, Cart, CartMenu],
       synchronize: true,
+      logging: true,
     }),
     TypeOrmModule.forFeature([UserDb], 'userDBConnection'),
   ],

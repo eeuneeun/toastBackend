@@ -39,11 +39,15 @@ export class Order {
   @Column()
   status: string;
 
-  @CreateDateColumn()
-  updatedAt: Date;
+  // @CreateDateColumn({
+  //   type: 'datetime',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP',
+  // })
+  // updatedAt: Date;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  createdAt: Date;
+  // @CreateDateColumn({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+  // createdAt: Date;
 
   @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order, {
     cascade: true,

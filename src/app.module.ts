@@ -29,7 +29,6 @@ import { StoreModule } from './store/store.module';
     CartModule,
     PromotionModule,
     OrderModule,
-
     OrderMenuModule,
     CartMenuModule,
     AuthModule,
