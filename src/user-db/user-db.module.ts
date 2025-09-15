@@ -21,10 +21,10 @@ import { OwnerUser } from './entities/OwnerUser';
     TypeOrmModule.forRoot({
       name: 'userDBConnection',
       type: 'mariadb',
-      host: 'localhost',
+      host: '34.64.34.242',
       port: 3306,
       username: 'root',
-      password: '1234',
+      password: 'Xhtmxm1357!',
       database: 'toast',
       entities: [
         User,
