@@ -11,7 +11,6 @@ import { OrderMenuModule } from './order-menu/order-menu.module';
 import { CartMenuModule } from './cart-menu/cart-menu.module';
 import { AuthModule } from './auth/auth.module';
 import { UserDbModule } from './user-db/user-db.module';
-import { OwnerDbModule } from './owner-db/owner-db.module';
 import { StoreModule } from './store/store.module';
 
 // 명령어
@@ -23,7 +22,6 @@ import { StoreModule } from './store/store.module';
       envFilePath: ['.development.env'],
     }),
     UserDbModule, // User App 에서 사용되는 데이터 베이스
-    OwnerDbModule, // Owner App 에서 사용되는 데이터 베이스
     UserModule,
     BoardModule,
     CartModule,
@@ -33,7 +31,6 @@ import { StoreModule } from './store/store.module';
     CartMenuModule,
     AuthModule,
     UserDbModule,
-    OwnerDbModule,
     StoreModule,
   ],
   controllers: [AppController],

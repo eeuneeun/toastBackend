@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
-import { Store } from 'src/owner-db/entities/Store';
+import { OwnerStore } from 'src/user-db/entities/OwnerStore';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class StoreService {
   constructor(
-    @InjectRepository(Store, 'ownerDBConnection')
-    private storeRepo: Repository<Store>,
+    @InjectRepository(OwnerStore, 'userDBConnection')
+    private storeRepo: Repository<OwnerStore>,
   ) {}
 
   create(createStoreDto: CreateStoreDto) {
     return 'This action adds a new store';
   }
 
-  async findAll(): Promise<Store[]> {
+  async findAll(): Promise<OwnerStore[]> {
     return this.storeRepo.find();
   }
 

@@ -6,11 +6,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { User } from "./User";
-import { Menu } from "./Menu";
+import { OwnerMenu } from "./OwnerMenu";
+import { OwnerUser } from "./OwnerUser";
 
-@Entity("store", { schema: "merchant" })
-export class Store {
+@Entity("owner_store", { schema: "toast" })
+export class OwnerStore {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
@@ -35,13 +35,13 @@ export class Store {
   @Column("varchar", { name: "imgUrl", length: 255 })
   imgUrl: string;
 
-  @ManyToOne(() => User, (user) => user.stores, {
+  @OneToMany(() => OwnerMenu, (ownerMenu) => ownerMenu.store)
+  ownerMenus: OwnerMenu[];
+
+  @ManyToOne(() => OwnerUser, (ownerUser) => ownerUser.ownerStores, {
     onDelete: "CASCADE",
     onUpdate: "NO ACTION",
   })
   @JoinColumn([{ name: "ownerId", referencedColumnName: "id" }])
-  owner: User;
-
-  @OneToMany(() => Menu, (menu) => menu.store)
-  menus: Menu[];
+  owner: OwnerUser;
 }

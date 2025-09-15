@@ -5,15 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
 import { In, Repository } from 'typeorm';
 import { CartMenu } from 'src/cart-menu/entities/cart-menu.entity';
-import { Menu } from 'src/owner-db/entities/Menu';
-
+import { OwnerMenu } from 'src/user-db/entities/OwnerMenu';
 @Injectable()
 export class CartService {
   constructor(
     @InjectRepository(Cart, 'userDBConnection')
     private cartRepo: Repository<Cart>,
-    @InjectRepository(Menu, 'ownerDBConnection')
-    private readonly menuRepo: Repository<Menu>,
+    @InjectRepository(OwnerMenu, 'userDBConnection')
+    private readonly menuRepo: Repository<OwnerMenu>,
     @InjectRepository(CartMenu, 'userDBConnection')
     private cartMenuRepo: Repository<CartMenu>,
   ) {}
@@ -36,7 +35,8 @@ export class CartService {
     const cartMenuEntities = await Promise.all(
       cartMenus.map(async (cm) => {
         const menu = await this.menuRepo.findOne({ where: { id: cm.menuId } });
-        if (!menu) throw new NotFoundException(`Menu ${cm.menuId} not found`);
+        if (!menu)
+          throw new NotFoundException(`OwnerMenu ${cm.menuId} not found`);
 
         return this.cartMenuRepo.create({
           menuId: menu.id,
@@ -108,10 +108,10 @@ export class CartService {
 
     if (!cart) return null;
 
-    // 2. Menu Id 배열 추출
+    // 2. OwnerMenu Id 배열 추출
     const menuIds = cart.cartMenus.map((cm) => cm.menuId);
 
-    // 3. 다른 DB에서 Menu 조회
+    // 3. 다른 DB에서 OwnerMenu 조회
     const menus = await this.menuRepo.findBy({ id: In(menuIds) });
 
     // 4. CartMenu에 메뉴 매핑
@@ -123,7 +123,7 @@ export class CartService {
   }
 
   /**
-   * 고객ID로 Cart 조회 + CartMenu + Menu 매핑
+   * 고객ID로 Cart 조회 + CartMenu + OwnerMenu 매핑
    */
   async getCartByCustomerId(customerId: string): Promise<Cart | null> {
     // 1️⃣ Cart + CartMenu 조회 (userDB)
@@ -157,7 +157,7 @@ export class CartService {
       await this.cartRepo.save(cart);
     }
 
-    // Cart + CartMenu + Menu 조회
+    // Cart + CartMenu + OwnerMenu 조회
     return this.getCartByCustomerId(customerId);
   }
 

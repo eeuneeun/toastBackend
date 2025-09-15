@@ -4,7 +4,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { In, Repository } from 'typeorm';
-import { Menu } from 'src/owner-db/entities/Menu';
+import { OwnerMenu } from 'src/user-db/entities/OwnerMenu';
 import { OrderMenu } from 'src/order-menu/entities/order-menu.entity';
 
 @Injectable()
@@ -12,8 +12,8 @@ export class OrderService {
   constructor(
     @InjectRepository(Order, 'userDBConnection')
     private orderRepo: Repository<Order>,
-    @InjectRepository(Menu, 'ownerDBConnection')
-    private menuRepo: Repository<Menu>,
+    @InjectRepository(OwnerMenu, 'userDBConnection')
+    private menuRepo: Repository<OwnerMenu>,
     @InjectRepository(OrderMenu, 'userDBConnection')
     private orderMenuRepo: Repository<OrderMenu>,
   ) {}
@@ -50,7 +50,8 @@ export class OrderService {
 
     for (const item of dto.cartMenus) {
       const menu = await this.menuRepo.findOne({ where: { id: item.menuId } });
-      if (!menu) throw new NotFoundException(`Menu ${item.menuId} not found`);
+      if (!menu)
+        throw new NotFoundException(`OwnerMenu ${item.menuId} not found`);
 
       console.log('menu', menu);
       const orderMenu = this.orderMenuRepo.create({

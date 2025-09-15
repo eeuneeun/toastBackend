@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Store } from "./Store";
+import { OwnerStore } from "./OwnerStore";
 
-@Entity("user", { schema: "merchant" })
-export class User {
+@Entity("owner_user", { schema: "toast" })
+export class OwnerUser {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
@@ -18,6 +18,6 @@ export class User {
   @Column("varchar", { name: "email", length: 255 })
   email: string;
 
-  @OneToMany(() => Store, (store) => store.owner)
-  stores: Store[];
+  @OneToMany(() => OwnerStore, (ownerStore) => ownerStore.owner)
+  ownerStores: OwnerStore[];
 }
